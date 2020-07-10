@@ -1,0 +1,86 @@
+﻿@model WebApplication12.Models.ViewModel.UserViewModel
+
+@{
+    ViewBag.Title = "Signup";
+    Layout = "~/Views/Shared/_LayoutUI.cshtml";
+}
+
+<div class="banner-top">
+    <div class="container">
+        <h3>Signup</h3>
+        <h4><a href="@Url.Action("Index","Home")">Home</a><label>/</label>Signup</h4>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!--login-->
+
+<div class="login">
+    <div class="main-agileits">
+        <div class="form-w3agile form1">
+            <h3>Register</h3>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="key">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <input type="text" value="Username" name="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" required="">
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    <div class="clearfix"></div>
+                </div>
+                <div class="key">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <input type="text" value="Email" name="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    <div class="clearfix"></div>
+                </div>
+                <div class="key">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input type="password" value="Password" name="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}" required="">
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    <div class="clearfix"></div>
+                </div>
+                <div class="key">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input type="password" value="ConfirmPassword" name="ConfirmPassword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'ConfirmPassword';}" required="">
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    <div class="clearfix"></div>
+                </div>
+                <input type="submit" value="Submit">
+}
+        </div>
+    </div>
+</div>
+<script>
+    function SubmitForm(form) {
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    if (data.success) {
+
+
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    }
+                    else {
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "error"
+                        })
+
+                    }
+
+                }
+            });
+        }
+        return false;
+    }
+</script>

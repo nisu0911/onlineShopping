@@ -1,0 +1,218 @@
+﻿@using WebApplication12.Models;
+@using WebApplication12.Models.ViewModel;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script type="application/x-javascript">
+         addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/rootcss/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/rootcss/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- js -->
+    <script src="~/rootcss/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="~/rootcss/js/move-top.js"></script>
+    <script type="text/javascript" src="~/rootcss/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <link href="~/rootcss/css/font-awesome.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!--- start-rate---->
+    <script src="~/rootcss/js/jstarbox.js"></script>
+    <link rel="stylesheet" href="~/rootcss/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('.starbox').each(function () {
+                var starbox = jQuery(this);
+                starbox.starbox({
+                    average: starbox.attr('data-start-value'),
+                    changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+                    ghosting: starbox.hasClass('ghosting'),
+                    autoUpdateAverage: starbox.hasClass('autoupdate'),
+                    buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+                    stars: starbox.attr('data-star-count') || 5
+                }).bind('starbox-value-changed', function (event, value) {
+                    if (starbox.hasClass('random')) {
+                        var val = Math.random();
+                        starbox.next().text(' ' + val);
+                        return val;
+                    }
+                })
+            });
+        });
+    </script>
+    <!---//End-rate---->
+
+</head>
+<body>
+    <body>
+
+        <div class="header">
+
+            <div class="container">
+
+                <div class="logo">
+                    <h1><a href="index.html"><b>T<br>H<br>E</b>Big Store<span>Online Food Ordering</span></a></h1>
+                </div>
+                <div class="head-t">
+                    <ul class="card">
+                        <li><a href="#"><i class="fa fa-file-text-o" aria-hidden="true"></i>Welcome @User.Identity.Name </a></li>
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li><a href="@Url.Action("Logout", "Account")" class="fa fa-sign-out"><span>Logout</span></a></li>
+
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Signup","Account")"><i class="fa fa-arrow-right" aria-hidden="true"></i>Register</a></li>
+                            <li><a href="@Url.Action("Login", "Account")" class="fa fa-sign-in"><span>Login</span></a></li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="header-ri">
+                    <ul class="social-top">
+                        <li><a href="#" class="icon facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a></li>
+                        <li><a href="#" class="icon twitter"><i class="fa fa-twitter" aria-hidden="true"></i><span></span></a></li>
+                        <li><a href="#" class="icon pinterest"><i class="fa fa-pinterest-p" aria-hidden="true"></i><span></span></a></li>
+                        <li><a href="#" class="icon dribbble"><i class="fa fa-dribbble" aria-hidden="true"></i><span></span></a></li>
+                    </ul>
+                </div>
+
+
+                <div class="nav-top">
+                    <nav class="navbar navbar-default">
+
+                        <div class="navbar-header nav_2">
+                            <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                            <ul class="nav navbar-nav ">
+                                <li class=" active"><a href="@Url.Action("Index", "Home")" class="hyper "><span>Home</span></a></li>
+
+                                @{
+                                    List<tblCategory> myMenu = MyMenu.GetMenus();
+
+                                    foreach (var item in myMenu)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ProductList", "Home",new {id=item.CategoryID })" class="hyper">@item.CategoryName</a>
+                                            @{
+                                                List<tblCategory> mysubmenu = MyMenu.GetSubMenus(item.CategoryID);
+
+                                                if (mysubmenu.Count > 0)
+                                                {
+                                                    <ul class="dropdown-menu">
+                                                        @foreach (var itm in mysubmenu)
+                                                        {
+                                                            <li><a href="@Url.Action("","",new {id=itm.CategoryID })">@item.CategoryID</a></li>
+                                                        }
+                                                    </ul>
+
+                                                }
+                                            }
+                                        </li>
+                                    }
+                                }
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <li><a href="@Url.Action("LogOut", "Account")" class="hyper"><span>Logout</span></a></li>
+
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("Signup","Account")" class="hyper"> <span>Sign up</span></a></li>
+                                    <li><a href="@Url.Action("Login", "Account")" class="hyper"><span>Login</span></a></li>
+                                }
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="cart">
+
+                        <span class="fa fa-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"></span></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+        <!---->
+        <script src="~/Scripts/notify.js"></script>
+        <script>window.jQuery || document.write('<script src="~/rootcss/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+        <script src="~/rootcss/js/jquery.vide.min.js"></script>
+        @RenderBody()
+        <!--footer-->
+        <div class="footer">
+            <div class="container">
+                <div class="clearfix"></div>
+                <div class="footer-bottom">
+                    <h2><a href="index.html"><b>T<br>H<br>E</b>Big Store<span>Online Food Ordering</span></a></h2>
+                    <p class="fo-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</p>
+                    <ul class="social-fo">
+                        <li><a href="https://www.facebook.com/BroadwayInfo/" class=" face"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    </ul>
+                    <div class=" address">
+                        <div class="col-md-4 fo-grid1">
+                            <p><i class="fa fa-home" aria-hidden="true"></i>Dathula, Lalitpur</p>
+                        </div>
+                        <div class="col-md-4 fo-grid1">
+                            <p><i class="fa fa-phone" aria-hidden="true"></i>+977 9851478596</p>
+                        </div>
+                        <div class="col-md-4 fo-grid1">
+                            <p><a href="mailto:info@example.com"><i class="fa fa-envelope-o" aria-hidden="true"></i>info@example1.com</a></p>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                </div>
+                <div class="copy-right">
+                    <p> &copy; 2016 Big gwaramari. All Rights Reserved | Design by  <a href="#"> Hissi Maicha</a></p>
+                </div>
+            </div>
+        </div>
+        <!-- //footer-->
+        <!-- smooth scrolling -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*
+                    var defaults = {
+                    containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                    };
+                */
+                $().UItoTop({ easingType: 'easeOutQuart' });
+            });
+        </script>
+        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+        <!-- //smooth scrolling -->
+        <!-- for bootstrap working -->
+        <script src="~/rootcss/js/bootstrap.js"></script>
+        <!-- //for bootstrap working -->
+
+        @RenderSection("scripts", required: false)
+
+    </body>
+</html>

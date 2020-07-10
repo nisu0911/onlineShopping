@@ -1,0 +1,127 @@
+﻿@using WebApplication12.Models;
+@using WebApplication12.Models.ViewModel;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUI.cshtml";
+}
+<div data-vide-bg="/video/video.gif">
+    <div class="container">
+        <div class="banner-info">
+            <h3>
+                It is a long established fact that a reader will be distracted by
+                the readable
+            </h3>
+            <div class="search-form">
+                @using (Html.BeginForm("ProductList", "Home", FormMethod.Post))
+                {
+                    @Html.TextBox("search", null, new { @placeHolder = "Enter Keyword" })
+
+                    <input type="submit" value=" ">
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--content-->
+<div class="content-top ">
+    <div class="container ">
+        <div class="spec ">
+            <h3>Special Offers</h3>
+            <div class="ser-t">
+                <b></b>
+                <span><i></i></span>
+                <b class="line"></b>
+            </div>
+        </div>
+        <div class="tab-head ">
+            <div class=" tab-content tab-content-t ">
+                <div class="tab-pane active text-style" id="tab1">
+                    <div class=" con-w3l">
+                        @{
+                            eMDBEntities _db = new eMDBEntities();
+                            List<tblProduct> product = ProductDB.GetAllRecentItem();
+                            foreach (var item in product)
+                            {
+                        <div class="col-md-3 m-wthree">
+                            <div class="col-m">
+                                <a href="@Url.Action("ViewItem","Home",new{id=item.ProductID})" data-toggle="modal" data-target="#myModal1" class="offer-img">
+                                    <img src="/ProductImages/@item.Photo" class="img-responsive" alt="">
+                                    <div class="offer"><p><span>Offer</span></p></div>
+                                </a>
+                                <div class="mid-1">
+                                    <div class="women">
+                                        <h6><a href="@Url.Action("ViewItem","Home",new{id=item.ProductID})">@item.ProductName</a>(1 kg)</h6>
+                                    </div>
+                                    <div class="mid-2">
+                                        <label>@item.SellingPrice</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="add">
+                                        <button class="btn btn-danger my-cart-btn my-cart-b" href="@Url.Action("AddToCart","ShopingCart",new { id=item.ProductID},"")">Add to Cart</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                            }
+                        <div class="clearfix"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--content-->
+<div class="product">
+    <div class="container">
+        <div class="spec ">
+            <h3>Food Items</h3>
+            <div class="ser-t">
+                <b></b>
+                <span><i></i></span>
+                <b class="line"></b>
+            </div>
+        </div>
+        <div class=" con-w3l">
+            @{  
+                eMDBEntities db = new eMDBEntities();
+                List<tblProduct> products = ProductDB.GetAllFoodRecentItem();
+                foreach (var item in products)
+                {
+                    <div class="col-md-3 pro-1">
+                        <div class="col-m">
+                            <a href="@Url.Action("ViewItem", "Home", new { id = item.ProductID })" data-toggle="modal" data-target="#myModal" class="viewitem">
+                                <img src="/ProductImages/@item.Photo" class="img-responsive" alt="">
+                            </a>
+                            <div class="mid-1">
+                                <div class="women">
+                                    <h6><a href="@Url.Action("ViewItem", "Home", new { id = item.ProductID })" data-toggle="modal" data-target="#myModal" class="viewitem">@item.ProductName</a></h6>
+                                </div>
+                                <div class="mid-2">
+                                    <label>@item.SellingPrice</label>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="add add-2">
+
+                                    <a class="btn btn-danger" href="@Url.Action("AddToCart","ShoppingCart", new { id = item.ProductID }, "")"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <a class="btn btn-info my-cart-btn" href="@Url.Action("ProductList","Home")">View More</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- product -->
+
