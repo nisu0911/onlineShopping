@@ -58,7 +58,7 @@ namespace WebApplication12.Controllers
                 //https://www.google.com/settings/security/lesssecureapps
                 //Make Access for less secure apps=true
 
-                string from = "gfccafe123@gmail.com";
+                string from = "swarihalwa@gmail.com";
                 using (MailMessage mail = new MailMessage(from, uv.Username))
                 {
                     try
@@ -73,7 +73,7 @@ namespace WebApplication12.Controllers
                             SmtpClient smtp = new SmtpClient();
                             smtp.Host = "smtp.gmail.com";
                             smtp.EnableSsl = true;
-                            NetworkCredential networkCredential = new NetworkCredential(from, "lale649");
+                            NetworkCredential networkCredential = new NetworkCredential(from, "password");
                             smtp.UseDefaultCredentials = false;
                             smtp.Credentials = networkCredential;
                             smtp.Port = 587;
